@@ -4,7 +4,7 @@ const Guidelinepopup = ({ closePopup }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div
-        className="bg-[#DFFFE2] p-6 rounded-lg shadow-xl w-72 text-center
+        className=" p-6 rounded-lg shadow-xl w-72 text-center
       s:w-80
       md:w-1/2"
       >
