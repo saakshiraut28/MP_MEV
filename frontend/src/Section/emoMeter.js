@@ -71,11 +71,13 @@ const EmoMeter = () => {
 
   const formatPredictionValue = (value) => {
     if (value === undefined || value === null) return undefined;
-    return typeof value === "number" ? `${value}` : value.toString();
+    return typeof value === "number"
+      ? `${(value * 100).toFixed(1)}%`
+      : value.toString();
   };
 
   return (
-    <div className="min-h-screen bg-[#FADADD] flex flex-col font-poppins text-black font-semibold pb-4">
+    <div className="min-h-screen flex flex-col font-poppins text-black font-semibold pb-4">
       <div className="heading text-center py-8 space-y-2">
         <h1 className="text-3xl font-bold tracking-wide sm:text-4xl lg:text-5xl">
           EmoMeter
@@ -88,9 +90,9 @@ const EmoMeter = () => {
       {error && console.log(error)}
 
       <div className="flex flex-col gap-6 px-4 pb-12 md:flex-row md:items-start md:gap-8 md:px-8 lg:gap-12 lg:px-12">
-        <div className="flex flex-col items-center space-y-4 p-4 bg-white/10 rounded-xl backdrop-blur-sm md:w-1/3 md:sticky md:top-24">
+        <div className="flex flex-col items-center space-y-4 p-4  rounded-xl backdrop-blur-sm md:w-1/3 md:sticky md:top-24">
           <div className="flex flex-col items-center gap-4 md:justify-center md:gap-6">
-            <div className="relative flex items-center w-full">
+            <div className="relative flex items-center w-full ">
               <input
                 type="file"
                 id="audioUpload"
@@ -101,13 +103,11 @@ const EmoMeter = () => {
               />
               <label
                 htmlFor="audioUpload"
-                className={`bg-[#FFA9A9] w-56 rounded-lg font-poppins text-black 
-                border-[#DFFFE2] border-3 p-2.5 text-sm font-semibold
-                text-center inline-block cursor-pointer
-                ${
-                  loading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"
-                } 
-                transition-opacity duration-200 md:text-base lg:text-lg`}
+                className={`w-56 rounded-lg font-poppins text-black
+                          border-black border-2 p-2.5 text-sm font-semibold
+                            text-center inline-block cursor-pointer
+    ${loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-100"}
+                transition-all duration-200 md:text-base lg:text-lg`}
               >
                 Upload Audio File
               </label>
@@ -121,8 +121,8 @@ const EmoMeter = () => {
               )}
 
               <button
-                className={`bg-[#FFA9A9] w-56 rounded-lg font-poppins text-black 
-                border-[#DFFFE2] border-3 p-2.5 text-sm font-semibold
+                className={` w-56 rounded-lg font-poppins text-black hover:bg-blue-100 
+                border-black border-2 p-2.5 text-sm font-semibold
                 ${
                   loading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"
                 }
@@ -134,8 +134,8 @@ const EmoMeter = () => {
               </button>
 
               <button
-                className={`bg-[#FFA9A9] w-56 rounded-lg font-poppins text-black 
-                border-[#DFFFE2] border-3 p-2.5 text-sm font-semibold
+                className={` w-56 rounded-lg font-poppins text-black hover:bg-blue-100
+                border-black border-2 p-2.5 text-sm font-semibold
                 ${
                   loading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"
                 }

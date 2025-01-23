@@ -50,11 +50,11 @@ const ReviewSection = () => {
   };
 
   return (
-    <div className="mx-auto p-6 bg-[#DFFFE2] h-auto" id="Reviews">
+    <div className="mx-auto p-6 h-auto" id="Reviews">
       <p className="font-bold text-2xl my-8">Happy Users!</p>
       <div className="flex items-center justify-between">
         <button
-          className="bg-[#CBFFD0] hover:bg-[#CBFFD0] text-gray-700 font-bold py-2 px-4 rounded-full shadow-md border-2 border-green-200"
+          className=" hover:bg-[#d7effd] text-black font-bold text-lg py-2 px-4 rounded-full shadow-md border-2 border-black"
           onClick={handlePrev}
         >
           ←
@@ -63,7 +63,7 @@ const ReviewSection = () => {
           {reviewCards.slice(currentIndex, currentIndex + 3)}
         </div>
         <button
-          className="bg-[#CBFFD0] hover:bg-[#CBFFD0] text-gray-700 font-bold py-2 px-4 rounded-full shadow-md border-2 border-green-200"
+          className=" hover:bg-[#d7effd] text-black font-bold text-lg py-2 px-4 rounded-full shadow-md border-2 border-black"
           onClick={handleNext}
         >
           →

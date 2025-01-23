@@ -5,7 +5,7 @@ const DisplayValue = ({ label, value }) => {
     <div className="mb-3">
       <p className="text-base font-medium text-black mb-1">{label}</p>
       <div
-        className="bg-white p-2 rounded-md border border-gray-200 mx-auto min-h-6 w-32 
+        className="bg-white p-2 rounded-md border border-gray-500 mx-auto min-h-6 w-32 
       md:min-h-8 md:w-48"
       >
         {value !== undefined ? (

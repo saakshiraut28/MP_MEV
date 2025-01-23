@@ -4,16 +4,31 @@ import Shrimayee from "../Assets/Shrimayee_Mishra.png";
 import Arfia from "../Assets/Arfia_Shaikh.png";
 import TeamCard from "../Components/teamCard";
 
-const Aboutus = ({}) => {
+const Aboutus = () => {
   return (
     <section
-      className="flex flex-col font-poppin text-[#012A45] px-4 py-8 items-center bg-[rgb(250,218,221)]
+      className="relative flex flex-col font-poppin text-[#012A45] px-4 py-8 items-center
       lg:px-24 lg:py-8 lg:flex-row"
       id="Aboutus"
     >
+      <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden">
+        <svg
+          className="w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 200"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,100 C300,200 600,0 900,100 C1200,200 1500,0 1800,100 L1800,200 L0,200 Z"
+            fill="#d7effd"
+            opacity="0.7"
+          />
+        </svg>
+      </div>
+
       <div
         className="flex flex-col ml-4
-      lg:w-[49%] "
+      lg:w-[49%]"
       >
         <div
           className="about-para pl-2 text-black
@@ -48,7 +63,7 @@ const Aboutus = ({}) => {
 
       <div
         className="pt-8 pb-8 flex justify-center items-center
-      lg:w-1/2 "
+      lg:w-1/2"
       >
         <div
           className="p-4 pt-8 flex flex-col space-y-24
