@@ -1,39 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Guidelinepopup = ({ closePopup }) => {
+  useEffect(() => {
+    // Prevent body scrolling
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50"
+      onClick={closePopup}
+    >
       <div
-        className=" p-6 rounded-lg shadow-xl w-72 text-center
-      s:w-80
-      md:w-1/2"
+        className="bg-[#ADDEFB] p-6 rounded-lg shadow-2xl w-11/12 max-w-md text-center relative"
+        onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-3xl font-semibold mb-4">
-          How to use the Visualizer:
-        </h2>
-        <p className="text-lg font-normal mb-2">
-          1. <span className="font-semibold">Upload File: </span>Click "Upload"
-          to select an audio file.
-        </p>
-        <p className="text-lg font-normal mb-2">
-          2. <span className="font-semibold">Analyze: </span>Hit "Analyze" to
-          process the file and predict results.
-        </p>
-        <p className="text-lg font-normal mb-2">
-          3. <span className="font-semibold">View Results: </span>Check the
-          energy, valence, tension, and associated emotion.
-        </p>
-        <p className="text-lg font-normal mb-2">
-          4. <span className="font-semibold">3D Plot: </span>Explore the 3D
-          visualization.
-        </p>
-        <p className="text-lg font-normal mb-4">
-          5. <span className="font-semibold">Reset: </span>Use "Reset" to upload
-          and analyze a new file.
-        </p>
+        <h2 className="text-2xl font-bold mb-4">How to Use EmoMeter</h2>
+        {[
+          "Upload audio file",
+          "Click Analyze",
+          "View emotional analysis",
+          "Explore the plot",
+          "Reset for new analysis",
+        ].map((step, index) => (
+          <p key={index} className="text-lg mb-2">
+            <span className="font-semibold">{index + 1}. </span>
+            {step}
+          </p>
+        ))}
         <button
           onClick={closePopup}
-          className="px-6 py-2 bg-black text-white font-semibold rounded-lg hover:bg-red-600 transition duration-200"
+          className="mt-4 px-6 py-2 bg-[#1FA6F4] text-white rounded-lg hover:bg-[#0B94E3] transition"
         >
           Close
         </button>
