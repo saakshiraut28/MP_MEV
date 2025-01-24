@@ -165,7 +165,10 @@ const EmoMeter = () => {
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 md:grid-cols-3">
+          <div
+            className="grid grid-cols-2 gap-x-4 gap-y-2
+          lg:grid-cols-3"
+          >
             <DisplayValue
               label="Energy"
               value={formatPredictionValue(
