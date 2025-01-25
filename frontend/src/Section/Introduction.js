@@ -10,35 +10,35 @@ const Introduction = () => {
   const introRef = useRef(null);
 
   useEffect(() => {
-    const lines = textRef.current.children;
-    gsap.fromTo(
-      lines,
-      { y: 100, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 3,
-        stagger: 0.3,
-        ease: "power2.out",
-      }
-    );
-
-    const paragraphText = paragraphRef.current;
-    const text = paragraphText.innerText;
-
-    paragraphText.innerHTML = text
-      .split("")
-      .map((char) => `<span class="inline-block">${char}</span>`)
+    const text = textRef.current;
+    const chars = text.innerText.split("");
+    text.innerHTML = chars
+      .map((char) =>
+        char === " "
+          ? "<span class='inline-block'>&nbsp;</span>"
+          : `<span class="inline-block">${char}</span>`
+      )
       .join("");
 
     gsap.fromTo(
-      paragraphText.querySelectorAll("span"),
+      text.querySelectorAll("span"),
       { opacity: 0, x: -10 },
       {
         opacity: 1,
         x: 0,
-        duration: 0.3,
-        stagger: 0.09,
+        duration: 0.1,
+        stagger: 0.1,
+        ease: "power2.out",
+      }
+    );
+
+    gsap.fromTo(
+      paragraphRef.current,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 2,
         ease: "power3.out",
         delay: 2,
       }
@@ -79,25 +79,16 @@ const Introduction = () => {
       <div className="relative flex items-center justify-center h-full z-10">
         <div className="overflow-hidden">
           <div>
-            <div ref={textRef}>
-              <div
-                className="text-4xl font-semibold
-              md:text-6xl "
-              >
-                Hello World,
-              </div>
-              <div
-                className="text-3xl font-semibold mt-4
-              md:text-5xl"
-              >
-                I am <span className="font-bold">EmoMeter</span>!
-              </div>
+            <div
+              ref={textRef}
+              className="text-center text-4xl font-semibold md:text-6xl"
+            >
+              Welcome to <span className="font-bold">EmoMeter</span>!
             </div>
 
             <div
               ref={paragraphRef}
-              className="text-xl font-medium mt-4 ml-8 mr-8 whitespace-pre-wrap
-              md:text-2xl"
+              className="text-xl font-medium mt-4 ml-8 mr-8 whitespace-pre-wrap text-center break-keep break-words md:text-2xl md:px-4"
             >
               Your go-to tool for understanding the emotional heartbeat of
               music. Whether a song is energetic, tense, or calm, I’ve got it
