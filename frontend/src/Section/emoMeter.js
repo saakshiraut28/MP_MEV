@@ -85,61 +85,78 @@ const EmoMeter = () => {
         </p>
       </div>
 
-      {error && console.log(error)}
+      {error && (
+        <div className="flex items-center justify-center gap-2 text-red-500 mb-4">
+          <AlertCircle size={20} />
+          <span>{error}</span>
+        </div>
+      )}
 
       <div className="flex flex-col gap-6 px-4 pb-12 md:flex-row md:items-start md:gap-8 md:px-8 lg:gap-12 lg:px-12">
-        <div className="flex flex-col items-center space-y-4 p-4  rounded-xl backdrop-blur-sm md:w-1/3 md:sticky md:top-24">
-          <div className="flex flex-col items-center gap-4 md:justify-center md:gap-6">
-            <div className="relative flex items-center w-full ">
-              <input
-                type="file"
-                id="audioUpload"
-                accept="audio/*"
-                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                onChange={handleFileChange}
-                disabled={loading}
-              />
-              <label
-                htmlFor="audioUpload"
-                className={`w-56 rounded-lg font-poppins text-black
-                          border-black border-2 p-2.5 text-sm font-semibold
+        <div className="flex flex-col items-center space-y-4 p-4 rounded-xl backdrop-blur-sm md:w-1/3 md:sticky md:top-24">
+          <div className="flex flex-col items-center gap-4 w-full md:justify-center md:gap-6">
+            <div className="flex flex-col items-center w-full max-w-[14rem]">
+              <div className="relative flex items-center w-full">
+                <input
+                  type="file"
+                  id="audioUpload"
+                  accept="audio/*"
+                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                  onChange={handleFileChange}
+                  disabled={loading}
+                />
+                <label
+                  htmlFor="audioUpload"
+                  className={`w-full rounded-lg font-poppins text-black
+                            border-black border-2 p-2.5 text-sm font-semibold
                             text-center inline-block cursor-pointer
-    ${loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-100"}
-                transition-all duration-200 md:text-base lg:text-lg`}
-              >
-                Upload Audio File
-              </label>
-            </div>
+                            ${
+                              loading
+                                ? "opacity-50 cursor-not-allowed"
+                                : "hover:bg-blue-100"
+                            }
+                            transition-all duration-200 md:text-base lg:text-lg`}
+                >
+                  Upload Audio File
+                </label>
+              </div>
 
-            <div className="flex flex-col items-center gap-4 w-full">
               {fileName && (
-                <span className="ml-4 text-gray-700 text-sm md:text-base truncate w-full text-ellipsis text-center">
-                  {fileName}
+                <span className="mt-4 text-gray-700 text-sm md:text-base truncate w-full text-center">
+                  {fileName.length > 10
+                    ? `${fileName.slice(0, 20)}...`
+                    : fileName}
                 </span>
               )}
+            </div>
 
+            <div className="flex flex-col items-center gap-4 w-full max-w-[14rem]">
               <button
-                className={` w-56 rounded-lg font-poppins text-black hover:bg-blue-100 
-                border-black border-2 p-2.5 text-sm font-semibold
-                ${
-                  loading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"
-                }
-                transition-opacity duration-200 md:text-base lg:text-lg`}
+                className={`w-full rounded-lg font-poppins text-black hover:bg-blue-100 
+                          border-black border-2 p-2.5 text-sm font-semibold
+                          ${
+                            loading
+                              ? "opacity-50 cursor-not-allowed"
+                              : "hover:opacity-90"
+                          }
+                          transition-opacity duration-200 md:text-base lg:text-lg`}
                 onClick={handleAnalyze}
-                disabled={loading}
+                disabled={loading || !file}
               >
                 {loading ? "Analyzing..." : "Analyze"}
               </button>
 
               <button
-                className={` w-56 rounded-lg font-poppins text-black hover:bg-blue-100
-                border-black border-2 p-2.5 text-sm font-semibold
-                ${
-                  loading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"
-                }
-                transition-opacity duration-200 md:text-base lg:text-lg`}
+                className={`w-full rounded-lg font-poppins text-black hover:bg-blue-100
+                          border-black border-2 p-2.5 text-sm font-semibold
+                          ${
+                            loading
+                              ? "opacity-50 cursor-not-allowed"
+                              : "hover:opacity-90"
+                          }
+                          transition-opacity duration-200 md:text-base lg:text-lg`}
                 onClick={handleReset}
-                disabled={loading}
+                disabled={loading || (!file && !fileName && !analysisResult)}
               >
                 Reset
               </button>
@@ -163,10 +180,7 @@ const EmoMeter = () => {
             )}
           </div>
 
-          <div
-            className="grid grid-cols-2 gap-x-4 gap-y-2
-          lg:grid-cols-3"
-          >
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 lg:grid-cols-3">
             <DisplayValue
               label="Energy"
               value={formatPredictionValue(
