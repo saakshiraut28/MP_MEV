@@ -75,7 +75,7 @@ const EmoMeter = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col font-poppins text-black font-semibold pb-4">
+    <div className="min-h-screen flex flex-col font-poppins text-black font-semibold pb-4 font-gloock">
       <div className="heading text-center py-8 space-y-2">
         <h1 className="text-3xl font-bold tracking-wide sm:text-4xl lg:text-5xl">
           EmoMeter

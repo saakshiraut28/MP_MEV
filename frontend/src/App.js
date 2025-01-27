@@ -18,7 +18,7 @@ function App() {
         >
           <path
             d="M0,100 C300,200 600,0 900,100 C1200,200 1500,0 1800,100 L1800,200 L0,200 Z"
-            fill="#6BC4F7"
+            fill="#FFADFC"
             opacity="0.7"
           />
         </svg>

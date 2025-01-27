@@ -18,7 +18,7 @@ module.exports = {
         customColor: "#f0f",
       },
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"], // Poppins font
+        gloock: ["Gloock", "serif"],
       },
     },
   },

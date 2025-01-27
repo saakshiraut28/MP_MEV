@@ -59,7 +59,7 @@ const Introduction = () => {
   return (
     <div
       ref={introRef}
-      className="relative w-full h-screen overflow-hidden bg-white"
+      className="relative w-full h-screen overflow-hidden bg-white font-gloock"
     >
       <div className="absolute top-0 left-0 w-[200%] h-full animate-smooth-wave blur-md">
         <svg
@@ -81,14 +81,14 @@ const Introduction = () => {
           <div>
             <div
               ref={textRef}
-              className="text-center text-4xl font-semibold md:text-6xl"
+              className="text-center text-xl font-semibold md:text-4xl"
             >
-              Welcome to <span className="font-bold">EmoMeter</span>!
+              Welcome to <span className="font-bold">EmoMeter</span>✨
             </div>
 
             <div
               ref={paragraphRef}
-              className="text-xl font-medium mt-4 ml-8 mr-8 whitespace-pre-wrap text-center break-keep break-words md:text-2xl md:px-4"
+              className="text-xl font-medium mt-4 mx-4 md:mx-32 whitespace-pre-wrap text-center break-keep break-words md:text-2xl md:px-4"
             >
               Your go-to tool for understanding the emotional heartbeat of
               music. Whether a song is energetic, tense, or calm, I’ve got it

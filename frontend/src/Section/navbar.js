@@ -28,7 +28,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`navbar fixed top-0 left-0 w-full z-50 transition-transform duration-300 ${
+        className={`navbar fixed top-0 left-0 w-full z-50 transition-transform duration-300 font-gloock ${
           isNavbarVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >

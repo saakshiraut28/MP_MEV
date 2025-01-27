@@ -7,7 +7,7 @@ import TeamCard from "../Components/teamCard";
 const Aboutus = () => {
   return (
     <section
-      className="relative flex flex-col font-poppin text-[#012A45] px-4 py-8 items-center
+      className="relative flex flex-col font-poppin text-black px-4 py-8 items-center font-gloock
       lg:px-24 lg:py-8 lg:flex-row"
       id="Aboutus"
     >
@@ -20,8 +20,8 @@ const Aboutus = () => {
         >
           <path
             d="M0,100 C300,200 600,0 900,100 C1200,200 1500,0 1800,100 L1800,200 L0,200 Z"
-            fill="#d7effd"
-            opacity="0.7"
+            fill="#fff"
+            opacity="1"
           />
         </svg>
       </div>
@@ -41,7 +41,7 @@ const Aboutus = () => {
             About Us
           </p>
           <p
-            className="mr-4 text-lg text-justify font-medium
+            className="mr-4 text-lg text-justify font-medium 
           lg:text-xl"
           >
             EmoMeter is an innovative tool that analyzes the emotional aspects

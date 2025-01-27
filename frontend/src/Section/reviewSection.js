@@ -7,12 +7,12 @@ const ReviewSection = () => {
   const reviewCards = [
     <ReviewCard
       key="1"
-      reviewText="This is the best service I've ever used!"
+      reviewText="This is the best service I've ever used! This is the best service I've ever used! This is the best service I've ever used!"
       reviewerName="John Doe"
     />,
     <ReviewCard
       key="2"
-      reviewText="Fantastic experience, highly recommend!"
+      reviewText="Fantastic experience, highly recommend! Fantastic experience, highly recommend! Fantastic experience, highly recommend! Fantastic experience, highly recommend!"
       reviewerName="Jane Smith"
     />,
     <ReviewCard
@@ -50,7 +50,7 @@ const ReviewSection = () => {
   };
 
   return (
-    <div className="mx-auto p-6 h-auto" id="Reviews">
+    <div className="mx-auto p-6 h-auto font-gloock" id="Reviews">
       <p className="font-bold text-2xl my-8">Happy Users!</p>
       <div className="flex items-center justify-between">
         <button
