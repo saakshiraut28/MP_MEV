@@ -165,12 +165,12 @@ const EmoMeter = () => {
         </div>
 
         <div className="md:w-2/3">
-          <div className="mb-6">
+          <div className="md:w-full flex justify-center items-center mb-6">
             {analysisResult?.visualization_base64 && (
               <img
                 src={`data:image/png;base64,${analysisResult.visualization_base64}`}
                 alt="Emotion Analysis Visualization"
-                className="w-full rounded-lg shadow-lg mb-4"
+                className="w-1/2 rounded-lg shadow-lg mb-4 text-center"
               />
             )}
             {analysisResult?.emotional_interpretation && (
