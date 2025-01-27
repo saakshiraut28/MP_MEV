@@ -32,7 +32,7 @@ const Navbar = () => {
           isNavbarVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="bg-[#d7effd] bg-opacity-70 backdrop-blur-md shadow-md py-1">
+        <div className="bg-[#fff] bg-opacity-70 backdrop-blur-md shadow-md py-1">
           <div
             className="max-w-7xl mx-auto px-4 flex justify-center items-center font-poppins text-black text-xs font-semibold
           xs:text-sm

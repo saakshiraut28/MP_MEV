@@ -9,7 +9,7 @@ import Introduction from "./Section/Introduction";
 function App() {
   return (
     <div className="App relative w-full min-h-screen overflow-x-hidden">
-      <div className="absolute top-0 left-0 w-[200%] h-full animate-smooth-wave blur-md -z-10 bg-[#d7effd]">
+      <div className="absolute top-0 left-0 w-[200%] h-full animate-smooth-wave blur-md -z-10 bg-white">
         <svg
           className="w-full h-full"
           xmlns="http://www.w3.org/2000/svg"

@@ -16,7 +16,7 @@ const Guidelinepopup = ({ closePopup }) => {
       onClick={closePopup}
     >
       <div
-        className="bg-[#ADDEFB] p-6 rounded-lg shadow-2xl w-11/12 max-w-md text-center relative"
+        className="bg-[#ADDEFB] p-6 rounded-lg shadow-2xl w-11/12 max-w-md text-justify relative"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-2xl font-bold mb-4">How to Use EmoMeter</h2>

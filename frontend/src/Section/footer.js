@@ -10,7 +10,7 @@ const Footer = () => {
             href="mailto:shrimayeemishra934@gmail.com"
             className="text-blue-600 underline ml-1"
           >
-            shrimayeemishra934@gmail.com
+            support@emometer.com
           </a>
         </p>
         <p className="text-gray-600 text-sm">

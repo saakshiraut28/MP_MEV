@@ -71,9 +71,7 @@ const EmoMeter = () => {
 
   const formatPredictionValue = (value) => {
     if (value === undefined || value === null) return undefined;
-    return typeof value === "number"
-      ? `${(value * 100).toFixed(1)}%`
-      : value.toString();
+    return typeof value === "number" ? `${value.toFixed(1)}` : value.toString();
   };
 
   return (

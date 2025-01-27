@@ -17,7 +17,7 @@ const Introduction = () => {
       {
         y: 0,
         opacity: 1,
-        duration: 3,
+        duration: 2,
         stagger: 0.3,
         ease: "power2.out",
       }
@@ -37,10 +37,10 @@ const Introduction = () => {
       {
         opacity: 1,
         x: 0,
-        duration: 0.3,
+        duration: 0.9,
         stagger: 0.09,
         ease: "power3.out",
-        delay: 2,
+        delay: 1,
       }
     );
 
@@ -59,7 +59,7 @@ const Introduction = () => {
   return (
     <div
       ref={introRef}
-      className="relative w-full h-screen overflow-hidden bg-[#85cef8]"
+      className="relative w-full h-screen overflow-hidden bg-white"
     >
       <div className="absolute top-0 left-0 w-[200%] h-full animate-smooth-wave blur-md">
         <svg
@@ -70,7 +70,7 @@ const Introduction = () => {
         >
           <path
             d="M0,100 C300,200 600,0 900,100 C1200,200 1500,0 1800,100 L1800,200 L0,200 Z"
-            fill="#d7effd"
+            fill="#FFBDBD"
             opacity="0.7"
           />
         </svg>
@@ -81,16 +81,10 @@ const Introduction = () => {
           <div>
             <div ref={textRef}>
               <div
-                className="text-4xl font-semibold
-              md:text-6xl "
-              >
-                Hello World,
-              </div>
-              <div
                 className="text-3xl font-semibold mt-4
               md:text-5xl"
               >
-                I am <span className="font-bold">EmoMeter</span>!
+                Welcome <span className="font-bold">EmoMeter</span>!
               </div>
             </div>
 
