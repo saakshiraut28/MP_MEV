@@ -11,6 +11,7 @@ const EmoMeter = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [analysisResult, setAnalysisResult] = useState(null);
+  const [analysisType, setAnalysisType] = useState(null); // 'instrumental' or 'lyrics'
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -55,6 +56,39 @@ const EmoMeter = () => {
 
       const result = await response.json();
       setAnalysisResult(result);
+      setAnalysisType("instrumental");
+    } catch (err) {
+      setError(err.message || "Failed to analyze audio file");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLyricAnalyze = async () => {
+    if (!file) {
+      setError("Please select an audio file first");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("http://localhost:8000/analyze-simple", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Analysis failed: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      setAnalysisResult(result);
+      setAnalysisType("lyrics");
     } catch (err) {
       setError(err.message || "Failed to analyze audio file");
     } finally {
@@ -67,11 +101,86 @@ const EmoMeter = () => {
     setFile(null);
     setError("");
     setAnalysisResult(null);
+    setAnalysisType(null);
   };
 
-  const formatPredictionValue = (value) => {
-    if (value === undefined || value === null) return undefined;
-    return typeof value === "number" ? `${value.toFixed(1)}` : value.toString();
+  const renderAnalysisResults = () => {
+    if (!analysisResult) return null;
+
+    if (analysisType === "instrumental") {
+      // Render instrumental analysis results
+      return (
+        <>
+          <div className="md:w-full flex flex-col justify-center items-center mb-6">
+            {analysisResult.visualization_base64 && (
+              <img
+                src={`data:image/png;base64,${analysisResult.visualization_base64}`}
+                alt="Emotion Analysis Visualization"
+                className="w-1/2 rounded-lg shadow-lg mb-4"
+              />
+            )}
+            {analysisResult.emotional_interpretation && (
+              <p className="text-lg text-center px-4">
+                {analysisResult.emotional_interpretation}
+              </p>
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 lg:grid-cols-3">
+            <DisplayValue
+              label="Energy"
+              value={analysisResult?.predictions?.energy?.[0]?.toFixed(1)}
+            />
+            <DisplayValue
+              label="Tension"
+              value={analysisResult?.predictions?.tension?.[0]?.toFixed(1)}
+            />
+            <DisplayValue
+              label="Valence"
+              value={analysisResult?.predictions?.valence?.[0]?.toFixed(1)}
+            />
+            <DisplayValue
+              label="Model Confidence"
+              value={`${(analysisResult?.r2_scores?.energy * 100).toFixed(1)}%`}
+            />
+            <DisplayValue label="Analysis Type" value="Instrumental" />
+            <DisplayValue label="Processing Time" value="Real-time" />
+          </div>
+        </>
+      );
+    } else {
+      // Render lyrics-based analysis results
+      return (
+        <>
+          <div className="md:w-full flex flex-col justify-center items-center mb-6">
+            <div className="flex gap-4 w-full justify-center">
+              {analysisResult.waveform_base64 && (
+                <img
+                  src={`data:image/png;base64,${analysisResult.waveform_base64}`}
+                  alt="Waveform Visualization"
+                  className="w-1/3 rounded-lg shadow-lg mb-4"
+                />
+              )}
+              {analysisResult.visualization_base64 && (
+                <img
+                  src={`data:image/png;base64,${analysisResult.visualization_base64}`}
+                  alt="Mel Spectrogram"
+                  className="w-1/3 rounded-lg shadow-lg mb-4"
+                />
+              )}
+            </div>
+            <h2 className="text-2xl font-bold mt-4 mb-2">
+              Detected Emotion: {analysisResult.emotion}
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 lg:grid-cols-3">
+            <DisplayValue label="Analysis Type" value="Lyrics-based" />
+            <DisplayValue label="Processing Time" value="Real-time" />
+          </div>
+        </>
+      );
+    }
   };
 
   return (
@@ -143,7 +252,22 @@ const EmoMeter = () => {
                 onClick={handleAnalyze}
                 disabled={loading || !file}
               >
-                {loading ? "Analyzing..." : "Analyze"}
+                {loading ? "Analyzing..." : "Analysis based on Instrumental"}
+              </button>
+
+              <button
+                className={`w-full rounded-lg font-poppins text-black hover:bg-blue-100 
+                          border-black border-2 p-2.5 text-sm font-semibold
+                          ${
+                            loading
+                              ? "opacity-50 cursor-not-allowed"
+                              : "hover:opacity-90"
+                          }
+                          transition-opacity duration-200 md:text-base lg:text-lg`}
+                onClick={handleLyricAnalyze}
+                disabled={loading || !file}
+              >
+                {loading ? "Analyzing..." : "Analysis Based on Lyrics"}
               </button>
 
               <button
@@ -164,59 +288,7 @@ const EmoMeter = () => {
           </div>
         </div>
 
-        <div className="md:w-2/3">
-          <div className="md:w-full flex justify-center items-center mb-6">
-            {analysisResult?.visualization_base64 && (
-              <img
-                src={`data:image/png;base64,${analysisResult.visualization_base64}`}
-                alt="Emotion Analysis Visualization"
-                className="w-1/2 rounded-lg shadow-lg mb-4 text-center"
-              />
-            )}
-            {analysisResult?.emotional_interpretation && (
-              <p className="text-lg text-center px-4">
-                {analysisResult.emotional_interpretation}
-              </p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 lg:grid-cols-3">
-            <DisplayValue
-              label="Energy"
-              value={formatPredictionValue(
-                analysisResult?.predictions?.energy?.[0]
-              )}
-            />
-            <DisplayValue
-              label="Tension"
-              value={formatPredictionValue(
-                analysisResult?.predictions?.tension?.[0]
-              )}
-            />
-            <DisplayValue
-              label="Valence"
-              value={formatPredictionValue(
-                analysisResult?.predictions?.valence?.[0]
-              )}
-            />
-            <DisplayValue
-              label="Model Confidence"
-              value={
-                analysisResult?.r2_scores?.energy
-                  ? `${(analysisResult.r2_scores.energy * 100).toFixed(1)}%`
-                  : undefined
-              }
-            />
-            <DisplayValue
-              label="Analysis Type"
-              value={analysisResult ? "Full Spectrum" : undefined}
-            />
-            <DisplayValue
-              label="Processing Time"
-              value={analysisResult ? "Real-time" : undefined}
-            />
-          </div>
-        </div>
+        <div className="md:w-2/3">{renderAnalysisResults()}</div>
       </div>
     </div>
   );

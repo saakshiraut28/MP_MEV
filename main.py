@@ -19,7 +19,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import base64
 from io import BytesIO
-
+import IPython.display as ipd
+import io
+import base64
 # Initialize FastAPI app
 app = FastAPI(title="Music Emotion Analysis API")
 
@@ -31,6 +33,84 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class LyricsEmotionResponse(BaseModel):
+    emotion: str
+    features: dict
+    visualization_base64: str
+    waveform_base64: str
+
+class SimpleMusicEmotion:
+    def __init__(self):
+        self.emotions = ['happy', 'sad', 'energetic', 'calm', 'angry']
+    
+    def extract_features(self, audio_bytes):
+        try:
+            # Load audio file
+            y, sr = librosa.load(audio_bytes)
+            
+            # Extract various features
+            tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
+            spectral_centroids = librosa.feature.spectral_centroid(y=y, sr=sr)[0]
+            spectral_rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr)[0]
+            zero_crossing_rate = librosa.feature.zero_crossing_rate(y)[0]
+            
+            # Calculate energy
+            energy = float(np.sum(np.abs(y)**2) / len(y))
+            
+            # Create feature dictionary
+            features = {
+                'tempo': float(tempo),
+                'spectral_centroid_mean': float(np.mean(spectral_centroids)),
+                'spectral_rolloff_mean': float(np.mean(spectral_rolloff)),
+                'zero_crossing_rate_mean': float(np.mean(zero_crossing_rate)),
+                'energy': energy
+            }
+            
+            # Generate visualizations
+            # Waveform
+            plt.figure(figsize=(12, 4))
+            plt.plot(y)
+            plt.title('Waveform')
+            plt.xlabel('Sample')
+            plt.ylabel('Amplitude')
+            waveform_buffer = io.BytesIO()
+            plt.savefig(waveform_buffer, format='png')
+            plt.close()
+            waveform_buffer.seek(0)
+            waveform_base64 = base64.b64encode(waveform_buffer.getvalue()).decode()
+            
+            # Mel spectrogram
+            mel_spect = librosa.feature.melspectrogram(y=y, sr=sr)
+            mel_spect_db = librosa.power_to_db(mel_spect, ref=np.max)
+            plt.figure(figsize=(12, 4))
+            librosa.display.specshow(mel_spect_db, sr=sr, x_axis='time', y_axis='mel')
+            plt.colorbar(format='%+2.0f dB')
+            plt.title('Mel Spectrogram')
+            mel_buffer = io.BytesIO()
+            plt.savefig(mel_buffer, format='png')
+            plt.close()
+            mel_buffer.seek(0)
+            mel_base64 = base64.b64encode(mel_buffer.getvalue()).decode()
+            
+            return features, waveform_base64, mel_base64
+            
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error processing audio: {str(e)}")
+    
+    def predict_emotion(self, features):
+        if features['tempo'] > 150 and features['energy'] > 0.1:
+            return 'energetic'
+        elif features['tempo'] > 130 and features['spectral_centroid_mean'] > 2000:
+            return 'happy'
+        elif features['tempo'] < 100 and features['energy'] < 0.05:
+            return 'sad'
+        elif features['zero_crossing_rate_mean'] > 0.1 and features['energy'] > 0.15:
+            return 'angry'
+        else:
+            return 'calm'
+
+
 
 # Response Model
 class PredictionResponse(BaseModel):
@@ -381,6 +461,33 @@ async def analyze_audio(file: UploadFile = File(...), model_type: str = "pls"):
             emotional_interpretation=interpretation,
             visualization_base64=visualization
         )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Add this new route to the existing FastAPI app
+@app.post("/analyze-simple", response_model=LyricsEmotionResponse)
+async def analyze_audio_simple(file: UploadFile = File(...)):
+    try:
+        # Read audio file
+        audio_bytes = io.BytesIO(await file.read())
+        
+        # Initialize analyzer
+        emotion_predictor = SimpleMusicEmotion()
+        
+        # Extract features and generate visualizations
+        features, waveform_base64, mel_base64 = emotion_predictor.extract_features(audio_bytes)
+        
+        # Predict emotion
+        emotion = emotion_predictor.predict_emotion(features)
+        
+        # Return response
+        return LyricsEmotionResponse(
+            emotion=emotion,
+            features=features,
+            visualization_base64=mel_base64,
+            waveform_base64=waveform_base64
+        )
+        
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
