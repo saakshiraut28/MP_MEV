@@ -464,32 +464,9 @@ async def analyze_audio(file: UploadFile = File(...), model_type: str = "pls"):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Add this new route to the existing FastAPI app
-@app.post("/analyze-simple", response_model=LyricsEmotionResponse)
-async def analyze_audio_simple(file: UploadFile = File(...)):
-    try:
-        # Read audio file
-        audio_bytes = io.BytesIO(await file.read())
-        
-        # Initialize analyzer
-        emotion_predictor = SimpleMusicEmotion()
-        
-        # Extract features and generate visualizations
-        features, waveform_base64, mel_base64 = emotion_predictor.extract_features(audio_bytes)
-        
-        # Predict emotion
-        emotion = emotion_predictor.predict_emotion(features)
-        
-        # Return response
-        return LyricsEmotionResponse(
-            emotion=emotion,
-            features=features,
-            visualization_base64=mel_base64,
-            waveform_base64=waveform_base64
-        )
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# Import and register routes from the lyrics sentiment module
+import lyric_sentiment_analysis as lyrics_sentiment
+lyrics_sentiment.register_routes(app)
 
 if __name__ == "__main__":
     import uvicorn

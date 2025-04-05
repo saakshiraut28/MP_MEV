@@ -7,33 +7,23 @@ const ReviewSection = () => {
   const reviewCards = [
     <ReviewCard
       key="1"
-      reviewText="This is the best service I've ever used! This is the best service I've ever used! This is the best service I've ever used!"
-      reviewerName="John Doe"
+      reviewText="Really loved this project. Lol, I tested a few song randomly. Please do this for Hindi songs"
+      reviewerName="Shruti Pote"
     />,
     <ReviewCard
       key="2"
-      reviewText="Fantastic experience, highly recommend! Fantastic experience, highly recommend! Fantastic experience, highly recommend! Fantastic experience, highly recommend!"
-      reviewerName="Jane Smith"
+      reviewText="This project idea is very unique. Being a AI student, I never saw a project things so much about Music. It's something we listen to everyday. But I never thaought of this aspects of it."
+      reviewerName="Samiksha Patil"
     />,
     <ReviewCard
       key="3"
-      reviewText="Exceeded my expectations in every way."
-      reviewerName="Michael Brown"
+      reviewText="Hi, I'm CS student. Saakshi shared this with me to review it. And really think this is good idea. I would love to contribute to it to enhance its feature."
+      reviewerName="Sumedh Pardeshi"
     />,
     <ReviewCard
       key="4"
-      reviewText="Wonderful! Will definitely use again."
-      reviewerName="Emily Davis"
-    />,
-    <ReviewCard
-      key="5"
-      reviewText="Absolutely loved it!"
-      reviewerName="Chris Wilson"
-    />,
-    <ReviewCard
-      key="6"
-      reviewText="Incredible attention to detail."
-      reviewerName="Sara Johnson"
+      reviewText="I like this project. I'm planning to implement something like this next year for my major project. thanks shrimayee for sharing."
+      reviewerName="Nikhil Sharma"
     />,
   ];
 

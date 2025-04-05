@@ -77,10 +77,17 @@ const EmoMeter = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch("http://localhost:8000/analyze-simple", {
-        method: "POST",
-        body: formData,
-      });
+      // Optional: Add fast_mode parameter
+      // You can add this as a state variable or UI toggle in your component
+      formData.append("fast_mode", "true");
+
+      const response = await fetch(
+        "http://localhost:8000/analyze-lyrics-sentiment",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Analysis failed: ${response.statusText}`);
@@ -150,22 +157,28 @@ const EmoMeter = () => {
       );
     } else {
       // Render lyrics-based analysis results
+      const emotionEntries = Object.entries(analysisResult.emotions || {});
+      const [topEmotion, topScore] = emotionEntries.reduce(
+        (max, curr) => (curr[1] > max[1] ? curr : max),
+        ["", 0]
+      );
+
       return (
         <>
           <div className="md:w-full flex flex-col justify-center items-center mb-6">
-            <div className="flex gap-4 w-full justify-center">
+            <div className="flex-1 gap-4 w-full justify-center">
               {analysisResult.waveform_base64 && (
                 <img
                   src={`data:image/png;base64,${analysisResult.waveform_base64}`}
                   alt="Waveform Visualization"
-                  className="w-1/3 rounded-lg shadow-lg mb-4"
+                  className="w-full rounded-lg shadow-lg mb-4"
                 />
               )}
               {analysisResult.visualization_base64 && (
                 <img
                   src={`data:image/png;base64,${analysisResult.visualization_base64}`}
                   alt="Mel Spectrogram"
-                  className="w-1/3 rounded-lg shadow-lg mb-4"
+                  className="w-full  rounded-lg shadow-lg mb-4"
                 />
               )}
             </div>
@@ -175,6 +188,14 @@ const EmoMeter = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 lg:grid-cols-3">
+            <DisplayValue
+              label="Sentiment Score"
+              value={analysisResult?.basic_sentiment}
+            />
+            <DisplayValue
+              label="Top Emotion"
+              value={`${topEmotion} (${topScore.toFixed(2)})`}
+            />
             <DisplayValue label="Analysis Type" value="Lyrics-based" />
             <DisplayValue label="Processing Time" value="Real-time" />
           </div>
