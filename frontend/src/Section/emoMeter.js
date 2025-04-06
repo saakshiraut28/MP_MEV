@@ -190,7 +190,7 @@ const EmoMeter = () => {
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 lg:grid-cols-3">
             <DisplayValue
               label="Sentiment Score"
-              value={analysisResult?.basic_sentiment}
+              value={analysisResult?.roberta_sentiment}
             />
             <DisplayValue
               label="Emotions Detected"
