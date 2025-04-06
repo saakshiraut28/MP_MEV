@@ -158,10 +158,10 @@ const EmoMeter = () => {
     } else {
       // Render lyrics-based analysis results
       const emotionEntries = Object.entries(analysisResult.emotions || {});
-      const [topEmotion, topScore] = emotionEntries.reduce(
-        (max, curr) => (curr[1] > max[1] ? curr : max),
-        ["", 0]
+      const highScoringEmotions = emotionEntries.filter(
+        ([emotion, score]) => score > 0.5
       );
+      const highEmotionNames = highScoringEmotions.map(([emotion]) => emotion);
 
       return (
         <>
@@ -178,7 +178,7 @@ const EmoMeter = () => {
                 <img
                   src={`data:image/png;base64,${analysisResult.visualization_base64}`}
                   alt="Mel Spectrogram"
-                  className="w-full  rounded-lg shadow-lg mb-4"
+                  className="w-full rounded-lg shadow-lg mb-4"
                 />
               )}
             </div>
@@ -193,8 +193,8 @@ const EmoMeter = () => {
               value={analysisResult?.basic_sentiment}
             />
             <DisplayValue
-              label="Top Emotion"
-              value={`${topEmotion} (${topScore.toFixed(2)})`}
+              label="Emotions Detected"
+              value={highEmotionNames.join(", ")}
             />
             <DisplayValue label="Analysis Type" value="Lyrics-based" />
             <DisplayValue label="Processing Time" value="Real-time" />
