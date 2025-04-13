@@ -134,7 +134,7 @@ const EmoMeter = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 lg:grid-cols-3">
-            <DisplayValue
+            {/* <DisplayValue
               label="Energy"
               value={analysisResult?.predictions?.energy?.[0]?.toFixed(1)}
             />
@@ -145,7 +145,7 @@ const EmoMeter = () => {
             <DisplayValue
               label="Valence"
               value={analysisResult?.predictions?.valence?.[0]?.toFixed(1)}
-            />
+            /> */}
             <DisplayValue
               label="Model Confidence"
               value={`${(analysisResult?.r2_scores?.energy * 100).toFixed(1)}%`}
@@ -167,13 +167,6 @@ const EmoMeter = () => {
         <>
           <div className="md:w-full flex flex-col justify-center items-center mb-6">
             <div className="flex-1 gap-4 w-full justify-center">
-              {analysisResult.waveform_base64 && (
-                <img
-                  src={`data:image/png;base64,${analysisResult.waveform_base64}`}
-                  alt="Waveform Visualization"
-                  className="w-full rounded-lg shadow-lg mb-4"
-                />
-              )}
               {analysisResult.visualization_base64 && (
                 <img
                   src={`data:image/png;base64,${analysisResult.visualization_base64}`}
